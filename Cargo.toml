@@ -1,0 +1,9 @@
+[package]
+name = "chip8"
+version = "0.1.0"
+authors = ["Matthew J. Berger <matthewberger@nevada.unr.edu>"]
+
+[dependencies]
+assembler = { path = "assembler" }
+disassembler = { path = "disassembler" }
+backend = { path = "backend" }
