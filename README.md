@@ -19,8 +19,6 @@
 
 A Chip-8 emulator, assembler, and disassembler written in Rust. (WIP)
 
-Each component of the program is implemented as a library, with an executable demonstration of their combined usage.
-
 ## License
 
 This Chip-8 implementation is distributed under the terms of the MIT license.
