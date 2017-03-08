@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="Source to the Rust file `backend/src/instructions.rs`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang">
+
+    <title>instructions.rs.html -- source</title>
+
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content source"><pre class="line-numbers"><span id="1">  1</span>
+<span id="2">  2</span>
+<span id="3">  3</span>
+<span id="4">  4</span>
+<span id="5">  5</span>
+<span id="6">  6</span>
+<span id="7">  7</span>
+<span id="8">  8</span>
+<span id="9">  9</span>
+<span id="10"> 10</span>
+<span id="11"> 11</span>
+<span id="12"> 12</span>
+<span id="13"> 13</span>
+<span id="14"> 14</span>
+<span id="15"> 15</span>
+<span id="16"> 16</span>
+<span id="17"> 17</span>
+<span id="18"> 18</span>
+<span id="19"> 19</span>
+<span id="20"> 20</span>
+<span id="21"> 21</span>
+<span id="22"> 22</span>
+<span id="23"> 23</span>
+<span id="24"> 24</span>
+<span id="25"> 25</span>
+<span id="26"> 26</span>
+<span id="27"> 27</span>
+<span id="28"> 28</span>
+<span id="29"> 29</span>
+<span id="30"> 30</span>
+<span id="31"> 31</span>
+<span id="32"> 32</span>
+<span id="33"> 33</span>
+<span id="34"> 34</span>
+<span id="35"> 35</span>
+<span id="36"> 36</span>
+<span id="37"> 37</span>
+<span id="38"> 38</span>
+<span id="39"> 39</span>
+<span id="40"> 40</span>
+<span id="41"> 41</span>
+<span id="42"> 42</span>
+<span id="43"> 43</span>
+<span id="44"> 44</span>
+<span id="45"> 45</span>
+<span id="46"> 46</span>
+<span id="47"> 47</span>
+<span id="48"> 48</span>
+<span id="49"> 49</span>
+<span id="50"> 50</span>
+<span id="51"> 51</span>
+<span id="52"> 52</span>
+<span id="53"> 53</span>
+<span id="54"> 54</span>
+<span id="55"> 55</span>
+<span id="56"> 56</span>
+<span id="57"> 57</span>
+<span id="58"> 58</span>
+<span id="59"> 59</span>
+<span id="60"> 60</span>
+<span id="61"> 61</span>
+<span id="62"> 62</span>
+<span id="63"> 63</span>
+<span id="64"> 64</span>
+<span id="65"> 65</span>
+<span id="66"> 66</span>
+<span id="67"> 67</span>
+<span id="68"> 68</span>
+<span id="69"> 69</span>
+<span id="70"> 70</span>
+<span id="71"> 71</span>
+<span id="72"> 72</span>
+<span id="73"> 73</span>
+<span id="74"> 74</span>
+<span id="75"> 75</span>
+<span id="76"> 76</span>
+<span id="77"> 77</span>
+<span id="78"> 78</span>
+<span id="79"> 79</span>
+<span id="80"> 80</span>
+<span id="81"> 81</span>
+<span id="82"> 82</span>
+<span id="83"> 83</span>
+<span id="84"> 84</span>
+<span id="85"> 85</span>
+<span id="86"> 86</span>
+<span id="87"> 87</span>
+<span id="88"> 88</span>
+<span id="89"> 89</span>
+<span id="90"> 90</span>
+<span id="91"> 91</span>
+<span id="92"> 92</span>
+<span id="93"> 93</span>
+<span id="94"> 94</span>
+<span id="95"> 95</span>
+<span id="96"> 96</span>
+<span id="97"> 97</span>
+<span id="98"> 98</span>
+<span id="99"> 99</span>
+<span id="100">100</span>
+<span id="101">101</span>
+<span id="102">102</span>
+<span id="103">103</span>
+<span id="104">104</span>
+<span id="105">105</span>
+<span id="106">106</span>
+<span id="107">107</span>
+<span id="108">108</span>
+<span id="109">109</span>
+<span id="110">110</span>
+<span id="111">111</span>
+<span id="112">112</span>
+<span id="113">113</span>
+<span id="114">114</span>
+<span id="115">115</span>
+<span id="116">116</span>
+<span id="117">117</span>
+<span id="118">118</span>
+<span id="119">119</span>
+<span id="120">120</span>
+<span id="121">121</span>
+<span id="122">122</span>
+<span id="123">123</span>
+<span id="124">124</span>
+<span id="125">125</span>
+<span id="126">126</span>
+<span id="127">127</span>
+<span id="128">128</span>
+<span id="129">129</span>
+<span id="130">130</span>
+<span id="131">131</span>
+<span id="132">132</span>
+<span id="133">133</span>
+<span id="134">134</span>
+<span id="135">135</span>
+<span id="136">136</span>
+<span id="137">137</span>
+<span id="138">138</span>
+<span id="139">139</span>
+<span id="140">140</span>
+<span id="141">141</span>
+<span id="142">142</span>
+<span id="143">143</span>
+<span id="144">144</span>
+<span id="145">145</span>
+<span id="146">146</span>
+<span id="147">147</span>
+<span id="148">148</span>
+<span id="149">149</span>
+<span id="150">150</span>
+<span id="151">151</span>
+<span id="152">152</span>
+<span id="153">153</span>
+<span id="154">154</span>
+<span id="155">155</span>
+<span id="156">156</span>
+<span id="157">157</span>
+<span id="158">158</span>
+<span id="159">159</span>
+<span id="160">160</span>
+<span id="161">161</span>
+<span id="162">162</span>
+<span id="163">163</span>
+<span id="164">164</span>
+<span id="165">165</span>
+<span id="166">166</span>
+<span id="167">167</span>
+<span id="168">168</span>
+<span id="169">169</span>
+<span id="170">170</span>
+<span id="171">171</span>
+<span id="172">172</span>
+<span id="173">173</span>
+<span id="174">174</span>
+<span id="175">175</span>
+<span id="176">176</span>
+<span id="177">177</span>
+<span id="178">178</span>
+<span id="179">179</span>
+<span id="180">180</span>
+<span id="181">181</span>
+<span id="182">182</span>
+<span id="183">183</span>
+<span id="184">184</span>
+<span id="185">185</span>
+<span id="186">186</span>
+<span id="187">187</span>
+<span id="188">188</span>
+<span id="189">189</span>
+<span id="190">190</span>
+<span id="191">191</span>
+<span id="192">192</span>
+<span id="193">193</span>
+<span id="194">194</span>
+<span id="195">195</span>
+<span id="196">196</span>
+<span id="197">197</span>
+<span id="198">198</span>
+<span id="199">199</span>
+<span id="200">200</span>
+<span id="201">201</span>
+<span id="202">202</span>
+<span id="203">203</span>
+<span id="204">204</span>
+<span id="205">205</span>
+<span id="206">206</span>
+<span id="207">207</span>
+<span id="208">208</span>
+<span id="209">209</span>
+<span id="210">210</span>
+<span id="211">211</span>
+<span id="212">212</span>
+<span id="213">213</span>
+<span id="214">214</span>
+<span id="215">215</span>
+<span id="216">216</span>
+<span id="217">217</span>
+<span id="218">218</span>
+<span id="219">219</span>
+<span id="220">220</span>
+<span id="221">221</span>
+<span id="222">222</span>
+<span id="223">223</span>
+<span id="224">224</span>
+</pre><pre class='rust '>
+<span class='doccomment'>/// A 16-bit address `NNN`</span>
+<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Address</span>;
+
+<span class='doccomment'>/// 8-bit information in an opcode. `NN`</span>
+<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Byte</span>;
+
+<span class='doccomment'>/// 4-bit information in an opcode. `N`</span>
+<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Nibble</span>;
+
+<span class='doccomment'>/// Represents an arbitrary 8-bit register.</span>
+<span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>Vx</span> <span class='op'>=</span> <span class='ident'>u8</span>;
+
+<span class='doccomment'>/// Represents an arbitrary 8-bit register.</span>
+<span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>Vy</span> <span class='op'>=</span> <span class='ident'>u8</span>;
+
+<span class='doccomment'>/// This contains all of the instructions in the Chip-8 instruction set.</span>
+<span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>Instructions</span> {
+
+    <span class='doccomment'>/// Clear the screen.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Opcode: `00E0`</span>
+    <span class='ident'>Clear</span>,
+
+    <span class='doccomment'>/// Return from a subroutine.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Opcode: `00EE`</span>
+    <span class='ident'>Return</span>,
+
+    <span class='doccomment'>/// Jump to address `NNN`.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Opcode: `1NNN`</span>
+    <span class='ident'>Jump</span>(<span class='ident'>Address</span>),
+
+    <span class='doccomment'>/// Call the subroutine at address `NNN`.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Opcode: `2NNN`</span>
+    <span class='ident'>Call</span>(<span class='ident'>Address</span>),
+
+    <span class='doccomment'>/// Skip the following instruction</span>
+    <span class='doccomment'>/// if the value of register `VX` equals `NNN`.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Opcode: `3XNN`</span>
+    <span class='ident'>SkipEqualK</span>(<span class='ident'>Vx</span>, <span class='ident'>Byte</span>),
+
+    <span class='doccomment'>/// Skip the following instruction</span>
+    <span class='doccomment'>/// if the value of register `VX` does not equal `NNN`.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Opcode: `4XNN`</span>
+    <span class='ident'>SkipNotEqualK</span>(<span class='ident'>Vx</span>, <span class='ident'>Byte</span>),
+
+    <span class='doccomment'>/// Skip the following instruction if the value of register `VX`</span>
+    <span class='doccomment'>/// is equal to the value of register `VY`.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Opcode: `5XY0`</span>
+    <span class='ident'>SkipEqual</span>(<span class='ident'>Vx</span>, <span class='ident'>Vy</span>),
+
+    <span class='doccomment'>/// Store number `NNN` in register `VX`.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Opcode: `6XNN`</span>
+    <span class='ident'>StoreK</span>(<span class='ident'>Vx</span>, <span class='ident'>Byte</span>),
+
+    <span class='doccomment'>/// Add the value `NNN` to register `VX`.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Opcode: `7XNN`</span>
+    <span class='ident'>AddK</span>(<span class='ident'>Vx</span>, <span class='ident'>Byte</span>),
+
+    <span class='doccomment'>/// Store the value of register `VY` in register `VX`.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Opcode: `8XY0`</span>
+    <span class='ident'>Store</span>(<span class='ident'>Vx</span>, <span class='ident'>Vy</span>),
+
+    <span class='doccomment'>/// Set `VX` to `VX` OR `VY`.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Opcode: `8XY1`</span>
+    <span class='ident'>Or</span>(<span class='ident'>Vx</span>, <span class='ident'>Vy</span>),
+
+    <span class='doccomment'>/// Set `VX` to `VX` AND `VY`.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Opcode: `8XY2`</span>
+    <span class='ident'>And</span>(<span class='ident'>Vx</span>, <span class='ident'>Vy</span>),
+
+    <span class='doccomment'>/// Set `VX` to `VX` XOR `VY`.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Opcode: `8XY3`</span>
+    <span class='ident'>Xor</span>(<span class='ident'>Vx</span>, <span class='ident'>Vy</span>),
+
+    <span class='doccomment'>/// Add the value of register `VY` to register `VX`.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// * Set VF to `01` if a carry occurs.</span>
+    <span class='doccomment'>/// * Set VF to `00` if a carry does not occur.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Opcode: `8XY4`</span>
+    <span class='ident'>Add</span>(<span class='ident'>Vx</span>, <span class='ident'>Vy</span>),
+
+    <span class='doccomment'>/// Subtract the value of register `VY` from register `VX`.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// * Set `VF` to `00` if a borrow occurs.</span>
+    <span class='doccomment'>/// * Set `VF` to `01` if a borrow does not occur.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Opcode: `8XY5`</span>
+    <span class='ident'>Sub</span>(<span class='ident'>Vx</span>, <span class='ident'>Vy</span>),
+
+    <span class='doccomment'>/// Store the value of register `VY` shifted right one bit in register `VX`.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// * Set register `VF` to the least significant bit prior to the shift.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Opcode: `8XY6`</span>
+    <span class='ident'>ShiftRight</span>(<span class='ident'>Vx</span>, <span class='ident'>Vy</span>),
+
+    <span class='doccomment'>/// Set register `VX` to the value of `VY` minus `VX`.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// * Set `VF` to `00` if a borrow occurs.</span>
+    <span class='doccomment'>/// * Set `VF` to `01` if a borrow does not occur.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Opcode: `8XY7`</span>
+    <span class='ident'>SubReversed</span>(<span class='ident'>Vx</span>, <span class='ident'>Vy</span>),
+
+    <span class='doccomment'>/// Store the value of register `VY` shifted left one bit in register `VX`.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// * Set register `VF` to the most significant bit prior to the shift.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Opcode: `8XYE`</span>
+    <span class='ident'>ShiftLeft</span>(<span class='ident'>Vx</span>, <span class='ident'>Vy</span>),
+
+    <span class='doccomment'>/// Skip the following instruction if the value of register `VX`</span>
+    <span class='doccomment'>/// is not equal to the value of register `VY`.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Opcode: `9XY0`</span>
+    <span class='ident'>SkipNotEqual</span>(<span class='ident'>Vx</span>, <span class='ident'>Vy</span>),
+
+    <span class='doccomment'>/// Store memory address `NNN` in register `I`.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Opcode: `ANNN`</span>
+    <span class='ident'>StoreI</span>(<span class='ident'>Address</span>),
+
+    <span class='doccomment'>/// Jump to address `NNN` + `V0`.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Opcode: `BNNN`</span>
+    <span class='ident'>JumpOffset</span>(<span class='ident'>Address</span>),
+
+    <span class='doccomment'>/// Set `VX` to a random number with a mask of `NN`.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Opcode: `CXNN`</span>
+    <span class='ident'>Random</span>(<span class='ident'>Vx</span>, <span class='ident'>Byte</span>),
+
+    <span class='doccomment'>/// Draw a sprite at position `VX`,`VY` with `N` bytes of sprite</span>
+    <span class='doccomment'>/// data starting at the address stored in `I`.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// * Set `VF` to `01` if any set pixels are changed to unset, and `00` otherwise.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Opcode: `DXYN`</span>
+    <span class='ident'>Draw</span>(<span class='ident'>Vx</span>, <span class='ident'>Vy</span>, <span class='ident'>Nibble</span>),
+
+    <span class='doccomment'>/// Skip the following instruction if the key corresponding to</span>
+    <span class='doccomment'>/// the hex value currently stored in register `VX` is pressed.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Opcode: `EX9E`</span>
+    <span class='ident'>SkipKeyPressed</span>(<span class='ident'>Vx</span>),
+
+    <span class='doccomment'>/// Skip the following instruction if the key corresponding to</span>
+    <span class='doccomment'>/// the hex value currently stored in register `VX` is not pressed.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Opcode: `EXA1`</span>
+    <span class='ident'>SkipKeyNotPressed</span>(<span class='ident'>Vx</span>),
+
+    <span class='doccomment'>/// Store the current value of the delay timer in register `VX`.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Opcode: `FX07`</span>
+    <span class='ident'>StoreDelayTimer</span>(<span class='ident'>Vx</span>),
+
+    <span class='doccomment'>/// Wait for a keypress and store the result in register `VX`.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Opcode: `FX0A`</span>
+    <span class='ident'>WaitForKeypressAndStore</span>(<span class='ident'>Vx</span>),
+
+    <span class='doccomment'>/// Set the delay timer to the value of register `VX`.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Opcode: `FX15`</span>
+    <span class='ident'>SetDelayTimer</span>(<span class='ident'>Vx</span>),
+
+    <span class='doccomment'>/// Set the sound timer to the value of register `VX`.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Opcode: `FX18`</span>
+    <span class='ident'>SetSoundTimer</span>(<span class='ident'>Vx</span>),
+
+    <span class='doccomment'>/// Add the value stored in register `VX` to register `I`.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Opcode: `FX1E`</span>
+    <span class='ident'>AddToI</span>(<span class='ident'>Vx</span>),
+
+    <span class='doccomment'>/// Set `I` to the memory address of the sprite data corresponding</span>
+    <span class='doccomment'>/// to the hexadecimal digit stored in register `VX`.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Opcode: `FX29`</span>
+    <span class='ident'>LoadHexGlyph</span>(<span class='ident'>Vx</span>),
+
+    <span class='doccomment'>/// Store the binary-coded decimal equivalent of the value</span>
+    <span class='doccomment'>/// stored in register `VX` at addresses `I`, `I+1`, and `I+2`.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Opcode: `FX33`</span>
+    <span class='ident'>StoreBCD</span>(<span class='ident'>Vx</span>),
+
+    <span class='doccomment'>/// Store the values of register `V0` to `VX` inclusive in memory</span>
+    <span class='doccomment'>/// starting at address `I`.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// * `I` is set to `I + X + 1` after operation.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Opcode: `FX55`</span>
+    <span class='ident'>StoreRegisters</span>(<span class='ident'>Vx</span>),
+
+    <span class='doccomment'>/// Fill registers `V0` to `VX` inclusive with the values stored</span>
+    <span class='doccomment'>/// in memory starting at address `I`.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// * `I` is set to `I + X + 1` after operation.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Opcode: `FX65`</span>
+    <span class='ident'>LoadRegisters</span>(<span class='ident'>Vx</span>),
+
+    <span class='doccomment'>/// Any instruction received that does not belong to the Chip-8 instruction set.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Opcode: `Unknown`</span>
+    <span class='ident'>Invalid</span>,
+
+}
+</pre>
+</section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "backend";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `Instructions` enum in crate `backend`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, Instructions">
+
+    <title>backend::instructions::Instructions - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../index.html'>backend</a>::<wbr><a href='index.html'>instructions</a></p><script>window.sidebarCurrent = {name: 'Instructions', ty: 'enum', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content enum">
+<h1 class='fqn'><span class='in-band'>Enum <a href='../index.html'>backend</a>::<wbr><a href='index.html'>instructions</a>::<wbr><a class='enum' href=''>Instructions</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../../src/backend/instructions.rs.html#17-224' title='goto source code'>[src]</a></span></h1>
+<pre class='rust enum'>pub enum Instructions {
+    Clear,
+    Return,
+    Jump(<a class='struct' href='../../backend/instructions/struct.Address.html' title='backend::instructions::Address'>Address</a>),
+    Call(<a class='struct' href='../../backend/instructions/struct.Address.html' title='backend::instructions::Address'>Address</a>),
+    SkipEqualK(<a class='type' href='../../backend/instructions/type.Vx.html' title='backend::instructions::Vx'>Vx</a>,&nbsp;<a class='struct' href='../../backend/instructions/struct.Byte.html' title='backend::instructions::Byte'>Byte</a>),
+    SkipNotEqualK(<a class='type' href='../../backend/instructions/type.Vx.html' title='backend::instructions::Vx'>Vx</a>,&nbsp;<a class='struct' href='../../backend/instructions/struct.Byte.html' title='backend::instructions::Byte'>Byte</a>),
+    SkipEqual(<a class='type' href='../../backend/instructions/type.Vx.html' title='backend::instructions::Vx'>Vx</a>,&nbsp;<a class='type' href='../../backend/instructions/type.Vy.html' title='backend::instructions::Vy'>Vy</a>),
+    StoreK(<a class='type' href='../../backend/instructions/type.Vx.html' title='backend::instructions::Vx'>Vx</a>,&nbsp;<a class='struct' href='../../backend/instructions/struct.Byte.html' title='backend::instructions::Byte'>Byte</a>),
+    AddK(<a class='type' href='../../backend/instructions/type.Vx.html' title='backend::instructions::Vx'>Vx</a>,&nbsp;<a class='struct' href='../../backend/instructions/struct.Byte.html' title='backend::instructions::Byte'>Byte</a>),
+    Store(<a class='type' href='../../backend/instructions/type.Vx.html' title='backend::instructions::Vx'>Vx</a>,&nbsp;<a class='type' href='../../backend/instructions/type.Vy.html' title='backend::instructions::Vy'>Vy</a>),
+    Or(<a class='type' href='../../backend/instructions/type.Vx.html' title='backend::instructions::Vx'>Vx</a>,&nbsp;<a class='type' href='../../backend/instructions/type.Vy.html' title='backend::instructions::Vy'>Vy</a>),
+    And(<a class='type' href='../../backend/instructions/type.Vx.html' title='backend::instructions::Vx'>Vx</a>,&nbsp;<a class='type' href='../../backend/instructions/type.Vy.html' title='backend::instructions::Vy'>Vy</a>),
+    Xor(<a class='type' href='../../backend/instructions/type.Vx.html' title='backend::instructions::Vx'>Vx</a>,&nbsp;<a class='type' href='../../backend/instructions/type.Vy.html' title='backend::instructions::Vy'>Vy</a>),
+    Add(<a class='type' href='../../backend/instructions/type.Vx.html' title='backend::instructions::Vx'>Vx</a>,&nbsp;<a class='type' href='../../backend/instructions/type.Vy.html' title='backend::instructions::Vy'>Vy</a>),
+    Sub(<a class='type' href='../../backend/instructions/type.Vx.html' title='backend::instructions::Vx'>Vx</a>,&nbsp;<a class='type' href='../../backend/instructions/type.Vy.html' title='backend::instructions::Vy'>Vy</a>),
+    ShiftRight(<a class='type' href='../../backend/instructions/type.Vx.html' title='backend::instructions::Vx'>Vx</a>,&nbsp;<a class='type' href='../../backend/instructions/type.Vy.html' title='backend::instructions::Vy'>Vy</a>),
+    SubReversed(<a class='type' href='../../backend/instructions/type.Vx.html' title='backend::instructions::Vx'>Vx</a>,&nbsp;<a class='type' href='../../backend/instructions/type.Vy.html' title='backend::instructions::Vy'>Vy</a>),
+    ShiftLeft(<a class='type' href='../../backend/instructions/type.Vx.html' title='backend::instructions::Vx'>Vx</a>,&nbsp;<a class='type' href='../../backend/instructions/type.Vy.html' title='backend::instructions::Vy'>Vy</a>),
+    SkipNotEqual(<a class='type' href='../../backend/instructions/type.Vx.html' title='backend::instructions::Vx'>Vx</a>,&nbsp;<a class='type' href='../../backend/instructions/type.Vy.html' title='backend::instructions::Vy'>Vy</a>),
+    StoreI(<a class='struct' href='../../backend/instructions/struct.Address.html' title='backend::instructions::Address'>Address</a>),
+    JumpOffset(<a class='struct' href='../../backend/instructions/struct.Address.html' title='backend::instructions::Address'>Address</a>),
+    Random(<a class='type' href='../../backend/instructions/type.Vx.html' title='backend::instructions::Vx'>Vx</a>,&nbsp;<a class='struct' href='../../backend/instructions/struct.Byte.html' title='backend::instructions::Byte'>Byte</a>),
+    Draw(<a class='type' href='../../backend/instructions/type.Vx.html' title='backend::instructions::Vx'>Vx</a>,&nbsp;<a class='type' href='../../backend/instructions/type.Vy.html' title='backend::instructions::Vy'>Vy</a>,&nbsp;<a class='struct' href='../../backend/instructions/struct.Nibble.html' title='backend::instructions::Nibble'>Nibble</a>),
+    SkipKeyPressed(<a class='type' href='../../backend/instructions/type.Vx.html' title='backend::instructions::Vx'>Vx</a>),
+    SkipKeyNotPressed(<a class='type' href='../../backend/instructions/type.Vx.html' title='backend::instructions::Vx'>Vx</a>),
+    StoreDelayTimer(<a class='type' href='../../backend/instructions/type.Vx.html' title='backend::instructions::Vx'>Vx</a>),
+    WaitForKeypressAndStore(<a class='type' href='../../backend/instructions/type.Vx.html' title='backend::instructions::Vx'>Vx</a>),
+    SetDelayTimer(<a class='type' href='../../backend/instructions/type.Vx.html' title='backend::instructions::Vx'>Vx</a>),
+    SetSoundTimer(<a class='type' href='../../backend/instructions/type.Vx.html' title='backend::instructions::Vx'>Vx</a>),
+    AddToI(<a class='type' href='../../backend/instructions/type.Vx.html' title='backend::instructions::Vx'>Vx</a>),
+    LoadHexGlyph(<a class='type' href='../../backend/instructions/type.Vx.html' title='backend::instructions::Vx'>Vx</a>),
+    StoreBCD(<a class='type' href='../../backend/instructions/type.Vx.html' title='backend::instructions::Vx'>Vx</a>),
+    StoreRegisters(<a class='type' href='../../backend/instructions/type.Vx.html' title='backend::instructions::Vx'>Vx</a>),
+    LoadRegisters(<a class='type' href='../../backend/instructions/type.Vx.html' title='backend::instructions::Vx'>Vx</a>),
+    Invalid,
+}</pre><div class='docblock'><p>This contains all of the instructions in the Chip-8 instruction set.</p>
+</div><h2 class='variants'>Variants</h2>
+<span id='variant.Clear' class='variant'><span id='Clear.v' class='invisible'><code>Clear</code></span></span><div class='docblock'><p>Clear the screen.</p>
+
+<p>Opcode: <code>00E0</code></p>
+</div><span id='variant.Return' class='variant'><span id='Return.v' class='invisible'><code>Return</code></span></span><div class='docblock'><p>Return from a subroutine.</p>
+
+<p>Opcode: <code>00EE</code></p>
+</div><span id='variant.Jump' class='variant'><span id='Jump.v' class='invisible'><code>Jump(<a class='struct' href='../../backend/instructions/struct.Address.html' title='backend::instructions::Address'>Address</a>)</code></span></span><div class='docblock'><p>Jump to address <code>NNN</code>.</p>
+
+<p>Opcode: <code>1NNN</code></p>
+</div><span id='variant.Call' class='variant'><span id='Call.v' class='invisible'><code>Call(<a class='struct' href='../../backend/instructions/struct.Address.html' title='backend::instructions::Address'>Address</a>)</code></span></span><div class='docblock'><p>Call the subroutine at address <code>NNN</code>.</p>
+
+<p>Opcode: <code>2NNN</code></p>
+</div><span id='variant.SkipEqualK' class='variant'><span id='SkipEqualK.v' class='invisible'><code>SkipEqualK(<a class='type' href='../../backend/instructions/type.Vx.html' title='backend::instructions::Vx'>Vx</a>,&nbsp;<a class='struct' href='../../backend/instructions/struct.Byte.html' title='backend::instructions::Byte'>Byte</a>)</code></span></span><div class='docblock'><p>Skip the following instruction
+if the value of register <code>VX</code> equals <code>NNN</code>.</p>
+
+<p>Opcode: <code>3XNN</code></p>
+</div><span id='variant.SkipNotEqualK' class='variant'><span id='SkipNotEqualK.v' class='invisible'><code>SkipNotEqualK(<a class='type' href='../../backend/instructions/type.Vx.html' title='backend::instructions::Vx'>Vx</a>,&nbsp;<a class='struct' href='../../backend/instructions/struct.Byte.html' title='backend::instructions::Byte'>Byte</a>)</code></span></span><div class='docblock'><p>Skip the following instruction
+if the value of register <code>VX</code> does not equal <code>NNN</code>.</p>
+
+<p>Opcode: <code>4XNN</code></p>
+</div><span id='variant.SkipEqual' class='variant'><span id='SkipEqual.v' class='invisible'><code>SkipEqual(<a class='type' href='../../backend/instructions/type.Vx.html' title='backend::instructions::Vx'>Vx</a>,&nbsp;<a class='type' href='../../backend/instructions/type.Vy.html' title='backend::instructions::Vy'>Vy</a>)</code></span></span><div class='docblock'><p>Skip the following instruction if the value of register <code>VX</code>
+is equal to the value of register <code>VY</code>.</p>
+
+<p>Opcode: <code>5XY0</code></p>
+</div><span id='variant.StoreK' class='variant'><span id='StoreK.v' class='invisible'><code>StoreK(<a class='type' href='../../backend/instructions/type.Vx.html' title='backend::instructions::Vx'>Vx</a>,&nbsp;<a class='struct' href='../../backend/instructions/struct.Byte.html' title='backend::instructions::Byte'>Byte</a>)</code></span></span><div class='docblock'><p>Store number <code>NNN</code> in register <code>VX</code>.</p>
+
+<p>Opcode: <code>6XNN</code></p>
+</div><span id='variant.AddK' class='variant'><span id='AddK.v' class='invisible'><code>AddK(<a class='type' href='../../backend/instructions/type.Vx.html' title='backend::instructions::Vx'>Vx</a>,&nbsp;<a class='struct' href='../../backend/instructions/struct.Byte.html' title='backend::instructions::Byte'>Byte</a>)</code></span></span><div class='docblock'><p>Add the value <code>NNN</code> to register <code>VX</code>.</p>
+
+<p>Opcode: <code>7XNN</code></p>
+</div><span id='variant.Store' class='variant'><span id='Store.v' class='invisible'><code>Store(<a class='type' href='../../backend/instructions/type.Vx.html' title='backend::instructions::Vx'>Vx</a>,&nbsp;<a class='type' href='../../backend/instructions/type.Vy.html' title='backend::instructions::Vy'>Vy</a>)</code></span></span><div class='docblock'><p>Store the value of register <code>VY</code> in register <code>VX</code>.</p>
+
+<p>Opcode: <code>8XY0</code></p>
+</div><span id='variant.Or' class='variant'><span id='Or.v' class='invisible'><code>Or(<a class='type' href='../../backend/instructions/type.Vx.html' title='backend::instructions::Vx'>Vx</a>,&nbsp;<a class='type' href='../../backend/instructions/type.Vy.html' title='backend::instructions::Vy'>Vy</a>)</code></span></span><div class='docblock'><p>Set <code>VX</code> to <code>VX</code> OR <code>VY</code>.</p>
+
+<p>Opcode: <code>8XY1</code></p>
+</div><span id='variant.And' class='variant'><span id='And.v' class='invisible'><code>And(<a class='type' href='../../backend/instructions/type.Vx.html' title='backend::instructions::Vx'>Vx</a>,&nbsp;<a class='type' href='../../backend/instructions/type.Vy.html' title='backend::instructions::Vy'>Vy</a>)</code></span></span><div class='docblock'><p>Set <code>VX</code> to <code>VX</code> AND <code>VY</code>.</p>
+
+<p>Opcode: <code>8XY2</code></p>
+</div><span id='variant.Xor' class='variant'><span id='Xor.v' class='invisible'><code>Xor(<a class='type' href='../../backend/instructions/type.Vx.html' title='backend::instructions::Vx'>Vx</a>,&nbsp;<a class='type' href='../../backend/instructions/type.Vy.html' title='backend::instructions::Vy'>Vy</a>)</code></span></span><div class='docblock'><p>Set <code>VX</code> to <code>VX</code> XOR <code>VY</code>.</p>
+
+<p>Opcode: <code>8XY3</code></p>
+</div><span id='variant.Add' class='variant'><span id='Add.v' class='invisible'><code>Add(<a class='type' href='../../backend/instructions/type.Vx.html' title='backend::instructions::Vx'>Vx</a>,&nbsp;<a class='type' href='../../backend/instructions/type.Vy.html' title='backend::instructions::Vy'>Vy</a>)</code></span></span><div class='docblock'><p>Add the value of register <code>VY</code> to register <code>VX</code>.</p>
+
+<ul>
+<li>Set VF to <code>01</code> if a carry occurs.</li>
+<li>Set VF to <code>00</code> if a carry does not occur.</li>
+</ul>
+
+<p>Opcode: <code>8XY4</code></p>
+</div><span id='variant.Sub' class='variant'><span id='Sub.v' class='invisible'><code>Sub(<a class='type' href='../../backend/instructions/type.Vx.html' title='backend::instructions::Vx'>Vx</a>,&nbsp;<a class='type' href='../../backend/instructions/type.Vy.html' title='backend::instructions::Vy'>Vy</a>)</code></span></span><div class='docblock'><p>Subtract the value of register <code>VY</code> from register <code>VX</code>.</p>
+
+<ul>
+<li>Set <code>VF</code> to <code>00</code> if a borrow occurs.</li>
+<li>Set <code>VF</code> to <code>01</code> if a borrow does not occur.</li>
+</ul>
+
+<p>Opcode: <code>8XY5</code></p>
+</div><span id='variant.ShiftRight' class='variant'><span id='ShiftRight.v' class='invisible'><code>ShiftRight(<a class='type' href='../../backend/instructions/type.Vx.html' title='backend::instructions::Vx'>Vx</a>,&nbsp;<a class='type' href='../../backend/instructions/type.Vy.html' title='backend::instructions::Vy'>Vy</a>)</code></span></span><div class='docblock'><p>Store the value of register <code>VY</code> shifted right one bit in register <code>VX</code>.</p>
+
+<ul>
+<li>Set register <code>VF</code> to the least significant bit prior to the shift.</li>
+</ul>
+
+<p>Opcode: <code>8XY6</code></p>
+</div><span id='variant.SubReversed' class='variant'><span id='SubReversed.v' class='invisible'><code>SubReversed(<a class='type' href='../../backend/instructions/type.Vx.html' title='backend::instructions::Vx'>Vx</a>,&nbsp;<a class='type' href='../../backend/instructions/type.Vy.html' title='backend::instructions::Vy'>Vy</a>)</code></span></span><div class='docblock'><p>Set register <code>VX</code> to the value of <code>VY</code> minus <code>VX</code>.</p>
+
+<ul>
+<li>Set <code>VF</code> to <code>00</code> if a borrow occurs.</li>
+<li>Set <code>VF</code> to <code>01</code> if a borrow does not occur.</li>
+</ul>
+
+<p>Opcode: <code>8XY7</code></p>
+</div><span id='variant.ShiftLeft' class='variant'><span id='ShiftLeft.v' class='invisible'><code>ShiftLeft(<a class='type' href='../../backend/instructions/type.Vx.html' title='backend::instructions::Vx'>Vx</a>,&nbsp;<a class='type' href='../../backend/instructions/type.Vy.html' title='backend::instructions::Vy'>Vy</a>)</code></span></span><div class='docblock'><p>Store the value of register <code>VY</code> shifted left one bit in register <code>VX</code>.</p>
+
+<ul>
+<li>Set register <code>VF</code> to the most significant bit prior to the shift.</li>
+</ul>
+
+<p>Opcode: <code>8XYE</code></p>
+</div><span id='variant.SkipNotEqual' class='variant'><span id='SkipNotEqual.v' class='invisible'><code>SkipNotEqual(<a class='type' href='../../backend/instructions/type.Vx.html' title='backend::instructions::Vx'>Vx</a>,&nbsp;<a class='type' href='../../backend/instructions/type.Vy.html' title='backend::instructions::Vy'>Vy</a>)</code></span></span><div class='docblock'><p>Skip the following instruction if the value of register <code>VX</code>
+is not equal to the value of register <code>VY</code>.</p>
+
+<p>Opcode: <code>9XY0</code></p>
+</div><span id='variant.StoreI' class='variant'><span id='StoreI.v' class='invisible'><code>StoreI(<a class='struct' href='../../backend/instructions/struct.Address.html' title='backend::instructions::Address'>Address</a>)</code></span></span><div class='docblock'><p>Store memory address <code>NNN</code> in register <code>I</code>.</p>
+
+<p>Opcode: <code>ANNN</code></p>
+</div><span id='variant.JumpOffset' class='variant'><span id='JumpOffset.v' class='invisible'><code>JumpOffset(<a class='struct' href='../../backend/instructions/struct.Address.html' title='backend::instructions::Address'>Address</a>)</code></span></span><div class='docblock'><p>Jump to address <code>NNN</code> + <code>V0</code>.</p>
+
+<p>Opcode: <code>BNNN</code></p>
+</div><span id='variant.Random' class='variant'><span id='Random.v' class='invisible'><code>Random(<a class='type' href='../../backend/instructions/type.Vx.html' title='backend::instructions::Vx'>Vx</a>,&nbsp;<a class='struct' href='../../backend/instructions/struct.Byte.html' title='backend::instructions::Byte'>Byte</a>)</code></span></span><div class='docblock'><p>Set <code>VX</code> to a random number with a mask of <code>NN</code>.</p>
+
+<p>Opcode: <code>CXNN</code></p>
+</div><span id='variant.Draw' class='variant'><span id='Draw.v' class='invisible'><code>Draw(<a class='type' href='../../backend/instructions/type.Vx.html' title='backend::instructions::Vx'>Vx</a>,&nbsp;<a class='type' href='../../backend/instructions/type.Vy.html' title='backend::instructions::Vy'>Vy</a>,&nbsp;<a class='struct' href='../../backend/instructions/struct.Nibble.html' title='backend::instructions::Nibble'>Nibble</a>)</code></span></span><div class='docblock'><p>Draw a sprite at position <code>VX</code>,<code>VY</code> with <code>N</code> bytes of sprite
+data starting at the address stored in <code>I</code>.</p>
+
+<ul>
+<li>Set <code>VF</code> to <code>01</code> if any set pixels are changed to unset, and <code>00</code> otherwise.</li>
+</ul>
+
+<p>Opcode: <code>DXYN</code></p>
+</div><span id='variant.SkipKeyPressed' class='variant'><span id='SkipKeyPressed.v' class='invisible'><code>SkipKeyPressed(<a class='type' href='../../backend/instructions/type.Vx.html' title='backend::instructions::Vx'>Vx</a>)</code></span></span><div class='docblock'><p>Skip the following instruction if the key corresponding to
+the hex value currently stored in register <code>VX</code> is pressed.</p>
+
+<p>Opcode: <code>EX9E</code></p>
+</div><span id='variant.SkipKeyNotPressed' class='variant'><span id='SkipKeyNotPressed.v' class='invisible'><code>SkipKeyNotPressed(<a class='type' href='../../backend/instructions/type.Vx.html' title='backend::instructions::Vx'>Vx</a>)</code></span></span><div class='docblock'><p>Skip the following instruction if the key corresponding to
+the hex value currently stored in register <code>VX</code> is not pressed.</p>
+
+<p>Opcode: <code>EXA1</code></p>
+</div><span id='variant.StoreDelayTimer' class='variant'><span id='StoreDelayTimer.v' class='invisible'><code>StoreDelayTimer(<a class='type' href='../../backend/instructions/type.Vx.html' title='backend::instructions::Vx'>Vx</a>)</code></span></span><div class='docblock'><p>Store the current value of the delay timer in register <code>VX</code>.</p>
+
+<p>Opcode: <code>FX07</code></p>
+</div><span id='variant.WaitForKeypressAndStore' class='variant'><span id='WaitForKeypressAndStore.v' class='invisible'><code>WaitForKeypressAndStore(<a class='type' href='../../backend/instructions/type.Vx.html' title='backend::instructions::Vx'>Vx</a>)</code></span></span><div class='docblock'><p>Wait for a keypress and store the result in register <code>VX</code>.</p>
+
+<p>Opcode: <code>FX0A</code></p>
+</div><span id='variant.SetDelayTimer' class='variant'><span id='SetDelayTimer.v' class='invisible'><code>SetDelayTimer(<a class='type' href='../../backend/instructions/type.Vx.html' title='backend::instructions::Vx'>Vx</a>)</code></span></span><div class='docblock'><p>Set the delay timer to the value of register <code>VX</code>.</p>
+
+<p>Opcode: <code>FX15</code></p>
+</div><span id='variant.SetSoundTimer' class='variant'><span id='SetSoundTimer.v' class='invisible'><code>SetSoundTimer(<a class='type' href='../../backend/instructions/type.Vx.html' title='backend::instructions::Vx'>Vx</a>)</code></span></span><div class='docblock'><p>Set the sound timer to the value of register <code>VX</code>.</p>
+
+<p>Opcode: <code>FX18</code></p>
+</div><span id='variant.AddToI' class='variant'><span id='AddToI.v' class='invisible'><code>AddToI(<a class='type' href='../../backend/instructions/type.Vx.html' title='backend::instructions::Vx'>Vx</a>)</code></span></span><div class='docblock'><p>Add the value stored in register <code>VX</code> to register <code>I</code>.</p>
+
+<p>Opcode: <code>FX1E</code></p>
+</div><span id='variant.LoadHexGlyph' class='variant'><span id='LoadHexGlyph.v' class='invisible'><code>LoadHexGlyph(<a class='type' href='../../backend/instructions/type.Vx.html' title='backend::instructions::Vx'>Vx</a>)</code></span></span><div class='docblock'><p>Set <code>I</code> to the memory address of the sprite data corresponding
+to the hexadecimal digit stored in register <code>VX</code>.</p>
+
+<p>Opcode: <code>FX29</code></p>
+</div><span id='variant.StoreBCD' class='variant'><span id='StoreBCD.v' class='invisible'><code>StoreBCD(<a class='type' href='../../backend/instructions/type.Vx.html' title='backend::instructions::Vx'>Vx</a>)</code></span></span><div class='docblock'><p>Store the binary-coded decimal equivalent of the value
+stored in register <code>VX</code> at addresses <code>I</code>, <code>I+1</code>, and <code>I+2</code>.</p>
+
+<p>Opcode: <code>FX33</code></p>
+</div><span id='variant.StoreRegisters' class='variant'><span id='StoreRegisters.v' class='invisible'><code>StoreRegisters(<a class='type' href='../../backend/instructions/type.Vx.html' title='backend::instructions::Vx'>Vx</a>)</code></span></span><div class='docblock'><p>Store the values of register <code>V0</code> to <code>VX</code> inclusive in memory
+starting at address <code>I</code>.</p>
+
+<ul>
+<li><code>I</code> is set to <code>I + X + 1</code> after operation.</li>
+</ul>
+
+<p>Opcode: <code>FX55</code></p>
+</div><span id='variant.LoadRegisters' class='variant'><span id='LoadRegisters.v' class='invisible'><code>LoadRegisters(<a class='type' href='../../backend/instructions/type.Vx.html' title='backend::instructions::Vx'>Vx</a>)</code></span></span><div class='docblock'><p>Fill registers <code>V0</code> to <code>VX</code> inclusive with the values stored
+in memory starting at address <code>I</code>.</p>
+
+<ul>
+<li><code>I</code> is set to <code>I + X + 1</code> after operation.</li>
+</ul>
+
+<p>Opcode: <code>FX65</code></p>
+</div><span id='variant.Invalid' class='variant'><span id='Invalid.v' class='invisible'><code>Invalid</code></span></span><div class='docblock'><p>Any instruction received that does not belong to the Chip-8 instruction set.</p>
+
+<p>Opcode: <code>Unknown</code></p>
+</div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "backend";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>
