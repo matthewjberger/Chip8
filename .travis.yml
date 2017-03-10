@@ -66,21 +66,23 @@ install:
 
 before_script:
   - |
-    if [[ "$TRAVIS_OS_NAME" == "linux" && "$TARGET" == "i686-unknown-linux-gnu"]]; then
+    if ["$TRAVIS_OS_NAME" == "linux"] && ["$TARGET" == "i686-unknown-linux-gnu"]; then
     pip install 'travis-cargo<0.2' --user &&
     export PATH=$HOME/.local/bin:$PATH; fi
 
 script:
   - |
       bash ci/script.sh &&
-      if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then travis-cargo --only stable doc; fi
+      if ["$TRAVIS_OS_NAME" == "linux"] && ["$TARGET" == "i686-unknown-linux-gnu"]; then
+      travis-cargo --only stable doc; fi
 
 after_script: set +e
 
 after_success:
   # Upload the documentation from the build with stable rust.
   # Only runs on the master branch, not individual PR's.
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then travis-cargo --only stable doc-upload; fi
+  - if ["$TRAVIS_OS_NAME" == "linux"] && ["$TARGET" == "i686-unknown-linux-gnu"]; then
+    travis-cargo --only stable doc-upload; fi
 
 before_deploy:
   - sh ci/before_deploy.sh
